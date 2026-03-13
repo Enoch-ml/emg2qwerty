@@ -46,6 +46,7 @@ dmypy.json
 logs/
 lightning_logs/
 run_logs/
+tmp_ckpts/
 
 # Data
 data
