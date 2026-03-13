@@ -45,6 +45,7 @@ dmypy.json
 # Logs and checkpoints
 logs/
 lightning_logs/
+run_logs/
 
 # Data
 data
