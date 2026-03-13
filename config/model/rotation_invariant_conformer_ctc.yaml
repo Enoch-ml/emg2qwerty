@@ -1,0 +1,22 @@
+# @package _global_
+
+##### FOR CONFORMER-STYLE TRANSFORMER:
+module:
+  _target_: emg2qwerty.lightning.RotationInvariantConformerCTCModule
+  in_features: 528              # 16 electrode channels * 33 freq bins
+  mlp_features: [128, 128]
+  d_model: 256
+  num_layers: 8
+  num_heads: 4
+  ff_multiplier: 4
+  conv_kernel_size: 15
+  subsampling_kernel_size: 3
+  subsampling_stride: 2
+  dropout: 0.1
+  pooling: mean
+  offsets: [-1, 0, 1]
+
+datamodule:
+  _target_: emg2qwerty.lightning.WindowedEMGDataModule
+  window_length: 8000
+  padding: [1800, 200]

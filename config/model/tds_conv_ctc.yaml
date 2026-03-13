@@ -1,72 +1,14 @@
 # @package _global_
 
 ##### FOR BASE MODEL (Time-Depth Separable Convolutional Connectionist Temporal Classification Module):
-# module:
-#   _target_: emg2qwerty.lightning.TDSConvCTCModule
-#   in_features: 528  # freq * channels = (n_fft // 2 + 1) * 16
-#   mlp_features: [384]
-#   block_channels: [24, 24, 24, 24]
-#   kernel_width: 32  # Total temporal receptive field of 125 samples given 4 layers
-
-# datamodule:
-#   _target_: emg2qwerty.lightning.WindowedEMGDataModule
-#   window_length: 8000  # 4 sec windows for 2kHz EMG
-#   padding: [1800, 200]  # 900ms past context, 100ms future context
-
-
-##### FOR CNN + RNN HYBRID:
-# module:
-#   _target_: emg2qwerty.lightning.SpectrogramCNNBiLSTMCTCModule
-#   freq_bins: 33
-#   cnn_out_features: 128
-#   conv_channels: [16, 32, 64]
-#   rnn_hidden_size: 256
-#   rnn_layers: 2
-#   dropout: 0.1
-#   bidirectional: true
-
-
-# datamodule:
-#   _target_: emg2qwerty.lightning.WindowedEMGDataModule
-#   window_length: 8000  # 4 sec windows for 2kHz EMG
-#   padding: [1800, 200]  # 900ms past context, 100ms future context
-
-
-##### FOR RECURRENT ARCHITECTURE (LSTM):
-# module:
-#   _target_: emg2qwerty.lightning.RotationInvariantBiLSTMCTCModule
-#   in_features: 528              # 16 electrode channels * 33 freq bins
-#   mlp_features: [128, 128]
-#   rnn_hidden_size: 256
-#   rnn_layers: 2
-#   dropout: 0.1
-#   bidirectional: true
-#   pooling: mean
-#   offsets: [-1, 0, 1]
-
-# datamodule:
-#   _target_: emg2qwerty.lightning.WindowedEMGDataModule
-#   window_length: 8000           # 4 sec windows for 2kHz EMG
-#   padding: [1800, 200]          # 900ms past context, 100ms future context
-
-
-##### FOR CONFORMER-STYLE TRANSFORMER:
 module:
-  _target_: emg2qwerty.lightning.RotationInvariantConformerCTCModule
-  in_features: 528              # 16 electrode channels * 33 freq bins
-  mlp_features: [128, 128]
-  d_model: 256
-  num_layers: 8
-  num_heads: 4
-  ff_multiplier: 4
-  conv_kernel_size: 15
-  subsampling_kernel_size: 3
-  subsampling_stride: 2
-  dropout: 0.1
-  pooling: mean
-  offsets: [-1, 0, 1]
+  _target_: emg2qwerty.lightning.TDSConvCTCModule
+  in_features: 528  # freq * channels = (n_fft // 2 + 1) * 16
+  mlp_features: [384]
+  block_channels: [24, 24, 24, 24]
+  kernel_width: 32  # Total temporal receptive field of 125 samples given 4 layers
 
 datamodule:
   _target_: emg2qwerty.lightning.WindowedEMGDataModule
-  window_length: 8000
-  padding: [1800, 200]
+  window_length: 8000  # 4 sec windows for 2kHz EMG
+  padding: [1800, 200]  # 900ms past context, 100ms future context
